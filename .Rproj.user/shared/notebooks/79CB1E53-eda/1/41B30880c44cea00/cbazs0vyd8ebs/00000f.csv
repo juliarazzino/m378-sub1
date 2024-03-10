@@ -1,0 +1,37 @@
+"0","# Install or load the renv package"
+"0","if (!requireNamespace(""renv"", quietly=TRUE)) install.packages(""renv"")"
+"0","library(renv)"
+"2","
+Attaching package: ‘renv’
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    embed, update
+
+"
+"2","The following objects are masked from ‘package:utils’:
+
+    history, upgrade
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    autoload, load, remove
+
+"
+"0","# Generate the lockfile"
+"0","renv::snapshot()"
+"1","- The lockfile is already up to date.
+"
+"0","# Check the project status"
+"0","renv::status()"
+"1","No issues found -- the project is in a consistent state.
+"
+"0","# Commit the renv.lock file"
+"0","# git add renv.lock"
+"0","# git commit -m ""Add renv.lock file"""
+"0",""
+"0","# Push changes to remote repository"
+"0","# git push origin main"
+"0",""

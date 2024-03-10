@@ -81,3 +81,23 @@ req <- httr2::request("http://127.0.0.1:8080/predict") |>
   httr2::req_perform()
 res <- httr2::resp_body_json(req)$predict[[1]]
 ```
+
+```{r}
+# Install or load the renv package
+if (!requireNamespace("renv", quietly=TRUE)) install.packages("renv")
+library(renv)
+
+# Generate the lockfile
+renv::snapshot()
+
+# Check the project status
+renv::status()
+
+# Commit the renv.lock file
+# git add renv.lock
+# git commit -m "Add renv.lock file"
+
+# Push changes to remote repository
+# git push origin main
+
+```
