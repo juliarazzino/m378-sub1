@@ -11,6 +11,13 @@ from pandas import get_dummies
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn import preprocessing
+import duckdb
+from palmerpenguins import penguins
+from vetiver import VetiverAPI
+from vetiver import VetiverModel
+import requests
+import vetiver
+import pins
 ```
 
 ## Get Data
@@ -19,6 +26,11 @@ from sklearn import preprocessing
 df = penguins.load_penguins().dropna()
 
 df.head(3)
+```
+
+```{python}
+con = duckdb.connect('my-db.duckdb')
+df = con.execute("SELECT * FROM penguins").fetchdf().dropna()
 ```
 
 ## Define Model and Fit
@@ -44,72 +56,51 @@ print(f"Coefficients {model.coef_}")
 1.  Write model outside of the bundle
 
 ```{python}
-from vetiver import VetiverModel
 v = VetiverModel(model, model_name='penguin_model', prototype_data=X)
 ```
 
 2.  Create an API for model predictions
 
-    Auto-generate a `{fastAPI}` from this model with:
+Auto-generate a `{fastAPI}` from this model with:
 
-    ```{python}
-    from vetiver import VetiverAPI
+```{python}
+app = VetiverAPI(v, check_prototype=True)
+```
 
-    app = VetiverAPI(v, check_prototype=True)
-    ```
+Run in python environment with: http://localhost:8080 or with the code chunk below
 
-    Run in python environment with: http://localhost:8080 or with the code chunk below
-
-    ```{python}
-    app.run(port = 8080)
-    ```
+```{python}
+# app.run(port = 8080)
+```
 
 # Lab 3
 
 ### Step 1: Put Data into DuckDB
 
 ```{python}
-import duckdb
-from palmerpenguins import penguins
-
-# Create a connection to the database
-con = duckdb.connect('my-db.duckdb')
-
-# Drop the table if it exists
-con.execute('DROP TABLE IF EXISTS penguins')
-
-# Load the penguins data
-df = penguins.load_penguins()
-
-# Create the penguins table
-con.execute('CREATE TABLE penguins AS SELECT * FROM df')
-
-# Close the connection
-con.close()
-
-```
-
-```{python}
-con = duckdb.connect('my-db.duckdb')
-df = con.execute("SELECT * FROM penguins").fetchdf().dropna()
-con.close()
+#con.execute('CREATE TABLE penguins AS SELECT * FROM df')
 ```
 
 ### **Step 2: Call the model API from code**
 
 ```{python}
-import requests
+#req_data = {
+ # "bill_length_mm": 0,
+#  "species_Chinstrap": False,
+#  "species_Gentoo": False,
+#  "sex_male": False
+#}
+#req = requests.post('http://127.0.0.1:8080/predict', json = [req_data])
+#res = req.json().get('predict')[0]
 
-req_data = {
-  "bill_length_mm": 0,
-  "species_Chinstrap": False,
-  "species_Gentoo": False,
-  "sex_male": False
-}
-req = requests.post('http://127.0.0.1:8080/predict', json = [req_data])
-res = req.json().get('predict')[0]
 ```
 
-### Step 3: Build a Shiny Act
+
+
+```{python}
+con.close()
+```
+
+### Step 3: Build a Shiny App
 
 -   Code is in app.py and app.R

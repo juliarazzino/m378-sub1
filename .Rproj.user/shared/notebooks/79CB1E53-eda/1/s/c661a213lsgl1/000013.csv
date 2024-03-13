@@ -1,4 +1,0 @@
-"0","dbDisconnect(con, shutdown=TRUE)"
-"2","Error in dbDisconnect(con, shutdown = TRUE) : 
-  could not find function ""dbDisconnect""
-"

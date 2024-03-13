@@ -1,3 +1,4 @@
+"0","# to do: add something that gets rid of the extra output"
 "0","library(palmerpenguins)"
 "0","library(dplyr)"
 "2","
@@ -15,6 +16,6 @@ Attaching package: ‘dplyr’
 
 "
 "0","library(ggplot2)"
-"0",""
 "0","df <- palmerpenguins::penguins"
+"0","library(vetiver)"
 "0",""

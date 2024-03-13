@@ -2,3 +2,6 @@
 "0","  ggplot(aes(x = bill_length_mm, y = body_mass_g, color = species)) +"
 "0","  geom_point() + "
 "0","  geom_smooth(method = ""lm"")"
+"2","Warning:"
+"2"," Database is garbage-collected, use dbDisconnect(con, shutdown=TRUE) or duckdb::duckdb_shutdown(drv) to avoid this.
+"

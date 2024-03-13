@@ -1,1 +1,0 @@
-{"frames":[],"message":"Error in dbDisconnect(con, shutdown = TRUE) : \n  could not find function \"dbDisconnect\"\n"}
