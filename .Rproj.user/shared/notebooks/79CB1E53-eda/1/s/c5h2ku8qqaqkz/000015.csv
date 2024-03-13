@@ -1,0 +1,8 @@
+"0","library(vetiver)"
+"0","library(pins)"
+"0",""
+"0","# Connect to the board folder where the model is stored"
+"0","board <- board_cache(""/data/model"")"
+"2","Error in board_cache(""/data/model"") : 
+  could not find function ""board_cache""
+"

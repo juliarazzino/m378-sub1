@@ -1,0 +1,114 @@
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+---
+title: "Penguins EDA"
+format:
+  html:
+    code-fold: true
+---
+
+## Penguin Size and Mass by Sex and Species
+
+```{r}
+# to do: add something that gets rid of the extra output
+library(palmerpenguins)
+library(dplyr)
+library(ggplot2)
+df <- palmerpenguins::penguins
+library(vetiver)
+
+```
+
+```{r}
+con<- DBI::dbConnect(duckdb::duckdb(), dbdir = "my-db.duckdb")
+con
+#DBI::dbWriteTable(con, "penguins", palmerpenguins::penguins,append = TRUE)
+```
+
+```{r}
+df %>%
+  group_by(species, sex) %>%
+  summarise(
+    across(
+      where(is.numeric), 
+      \(x) mean(x, na.rm = TRUE)
+      )
+    ) %>%
+  knitr::kable()
+
+```
+
+## Penguin Size vs Mass by Species
+
+```{r}
+df %>%
+  ggplot(aes(x = bill_length_mm, y = body_mass_g, color = species)) +
+  geom_point() + 
+  geom_smooth(method = "lm")
+```
+
+```{r}
+library(vetiver)
+library(pins)
+
+# Connect to the board folder where the model is stored
+board <- board_cache("/data/model")
+
+# Load the model using VetiverModel
+v <- VetiverModel$from_pin(board, "penguin_model", version = "20230422T102952Z-cb1f9")
+
+# Create a VetiverAPI object
+vetiver_api <- VetiverAPI$new(v)
+
+# Access the app object from the VetiverAPI
+api <- vetiver_api$app
+
+```
+
+```{r}
+#vetiver_deploy_rsconnect(
+ #   board = board, 
+  #  name = "c25julia.razzino/penguin",
+   # predict_args = list(debug = TRUE),
+    #account = "c25julia.razzino"
+#)
+```
+
+```{r}
+#vetiver_prepare_docker(board = board, penguins)
+```
+
+```{r}
+#df %>%
+ # group_by(species, sex) %>%
+  #summarise(
+   # across(
+    #    ends_with("mm") | ends_with("g"),
+     # \(x) mean(x, na.rm = TRUE)
+      #)
+    #) %>%
+  #dplyr::collect() %>%
+  #knitr::kable()
+```
+
+```{r}
+#req <- httr2::request("http://127.0.0.1:8080/predict") |>
+  #httr2::req_body_json(
+   # list(
+    #  list(
+     #   "bill_length_mm" = 0,
+      #  "species_Chinstrap" = FALSE,
+       # "species_Gentoo" = FALSE,
+        #"sex_male" = FALSE
+      #)
+    #)
+  #) |>
+  #httr2::req_perform()
+#res <- httr2::resp_body_json(req)$predict[[1]]
+```
+
+```{r}
+DBI::dbDisconnect(con, shutdown=TRUE)
+```

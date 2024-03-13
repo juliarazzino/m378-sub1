@@ -1,0 +1,6 @@
+"0","#vetiver_deploy_rsconnect("
+"0"," #   board = board, "
+"0","  #  name = ""c25julia.razzino/penguin"","
+"0","   # predict_args = list(debug = TRUE),"
+"0","    #account = ""c25julia.razzino"""
+"0","#)"
